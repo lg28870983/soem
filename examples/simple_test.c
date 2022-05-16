@@ -55,7 +55,7 @@ typedef struct  __attribute__((__packed__))
 	long           dest_pos;
 	unsigned short error_word;
 	unsigned short status_word;
-	long  cur_pos;
+	long           cur_pos;
 }SERVO_DATA_T;
 
 typedef struct
@@ -148,9 +148,9 @@ static void process_data_config()
 		//1600
 		ind = 0;
 		safe_SDCwrite_b(slave, 0x1600, 0, 0);
-		safe_SDCwrite_dw(slave, 0x1600, ++ind, htoel(0x60600008));//6060h(????)
-		safe_SDCwrite_dw(slave, 0x1600, ++ind, htoel(0x60400010));//6040h(???)
-		safe_SDCwrite_dw(slave, 0x1600, ++ind, htoel(0x607a0020));//607Ah(????)
+		safe_SDCwrite_dw(slave, 0x1600, ++ind, htoel(0x60600008));//6060h(mode)
+		safe_SDCwrite_dw(slave, 0x1600, ++ind, htoel(0x60400010));//6040h(control)
+		safe_SDCwrite_dw(slave, 0x1600, ++ind, htoel(0x607a0020));//607Ah(dest position)
 		safe_SDCwrite_b(slave, 0x1600, 0, ind);
 
 		//1c12.0
@@ -164,9 +164,9 @@ static void process_data_config()
 		//1a00
 		ind = 0;
 		safe_SDCwrite_b(slave, 0x1a00, 0, 0);
-		safe_SDCwrite_dw(slave, 0x1a00, ++ind, htoel(0x603F0010));//603Fh(???)
-		safe_SDCwrite_dw(slave, 0x1a00, ++ind, htoel(0x60410010));//6041h(???)
-		safe_SDCwrite_dw(slave, 0x1a00, ++ind, htoel(0x60640020));//6064h(????)
+		safe_SDCwrite_dw(slave, 0x1a00, ++ind, htoel(0x603F0010));//603Fh(error)
+		safe_SDCwrite_dw(slave, 0x1a00, ++ind, htoel(0x60410010));//6041h(status)
+		safe_SDCwrite_dw(slave, 0x1a00, ++ind, htoel(0x60640020));//6064h(current postion)
 		safe_SDCwrite_b(slave, 0x1a00, 0, ind);
 
 		//1c13.0
@@ -317,7 +317,6 @@ static void is620n_test(char *ifname)
 				// send one valid process data to make outputs in slaves happy
 				ec_send_processdata();
 				wkc = ec_receive_processdata(EC_TIMEOUTRET*3);
-				//printf("--->workcounter %d\n", wkc);
 				//view_slave_data();
 				
 				// request OP state for all slaves 
@@ -331,7 +330,6 @@ static void is620n_test(char *ifname)
 					servo_switch_op();
 					ec_send_processdata();
 					ec_receive_processdata(EC_TIMEOUTRET);
-					printf("--->workcounter %d\n", wkc);
 					ec_statecheck(0, EC_STATE_OPERATIONAL, 2000);
 				}
 				while (chk-- && (ec_slave[0].state != EC_STATE_OPERATIONAL));

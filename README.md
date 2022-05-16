@@ -36,6 +36,12 @@ RT-Thread online packages
 
 在打开 soem package 后，当进行 bsp 编译时，它会被加入到 bsp 工程中进行编译。
 
+查看EtherCAT设备信息
+msh>ec_slaveinfo e0
+
+伺服运行测试
+msh>ec_simpletest e0
+
 更多文档位于 /docs 下，后续会补充
 
 ##4 注意事项

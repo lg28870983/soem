@@ -697,7 +697,7 @@ void slaveinfo(char *ifname)
 
 char ifbuf[1024];
 
-int ec_slavinfo(int argc, char *argv[])
+int ec_slaveinfo(int argc, char *argv[])
 {
    ec_adaptert * adapter = NULL;
    printf("SOEM (Simple Open EtherCAT Master)\nSlaveinfo\n");
@@ -713,18 +713,9 @@ int ec_slavinfo(int argc, char *argv[])
    else
    {
       printf("Usage: slaveinfo ifname [options]\nifname = e0 for example\nOptions :\n -sdo : print SDO info\n -map : print mapping\n");
-
-//      printf ("Available adapters\n");
-//      adapter = ec_find_adapters ();
-//      while (adapter != NULL)
-//      {
-//         printf ("Description : %s, Device to use for wpcap: %s\n", adapter->desc,adapter->name);
-//         adapter = adapter->next;
-//      }
-//      ec_free_adapters(adapter);
    }
 
    printf("End program\n");
    return (0);
 }
-MSH_CMD_EXPORT(ec_slavinfo, EtherCAT scan slave info sample);
+MSH_CMD_EXPORT(ec_slaveinfo, EtherCAT scan slave info sample);
