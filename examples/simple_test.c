@@ -408,7 +408,7 @@ static void is620n_test(char *ifname)
 static void ec_simpletest(int argc, char **argv)
 {
 	if(argc<2){
-		printf("usage : ectest e0\n");
+		printf("usage : ec_simpletest e0\n");
 		return;
 	}
 	is620n_test(argv[1]);
